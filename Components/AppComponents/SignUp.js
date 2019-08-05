@@ -14,18 +14,13 @@ export default class SignUp extends Component {
         };
     }
 
-    iconPress = () => {
-        let iconName = (this.state.showPassword) ? "eye" : "eye-off";
-        this.setState({
-            showPassword: !this.state.showPassword,
-            iconName: iconName
-        });
-    };
-
     render() {
         return (
 
             <ImageBackground source={bgImg} style={styles.backgroundContainer}>
+                <View style={styles.logoContainer}>
+                    <Text style={styles.logoText}>Sign Up Form</Text>
+                </View>
                 <View style={styles.inputContainer}>
                     <Icon name={"email"} size={28} color={"white"} style={styles.inputIcon}
                     />
@@ -45,18 +40,20 @@ export default class SignUp extends Component {
                     <Icon name={"lock-outline"} size={28} color={"white"}
                           style={styles.inputIcon}
                     />
-                    <TextInput{...this.props}
-                              style={styles.inputCredentials} placeholder={"Password"}
-                              secureTextEntry={this.state.showPassword}
-                              underlineColorAndroid="transparent"
+                    <TextInput style={styles.inputCredentials}
+                               placeholder={"Password"}
+                               underlineColorAndroid="transparent"
                     />
+                </View>
 
-                    <TouchableOpacity style={styles.viewPassword}
-                                      onPress={this.iconPress}>
-                        <Icon name={this.state.iconName} size={28}
-                              color={"white"}
-                        />
-                    </TouchableOpacity>
+                <View style={styles.inputContainer}>
+                    <Icon name={"lock-outline"} size={28} color={"white"}
+                          style={styles.inputIcon}
+                    />
+                    <TextInput style={styles.inputCredentials}
+                               placeholder={"Confirm Password"}
+                               underlineColorAndroid="transparent"
+                    />
                 </View>
 
                 <TouchableOpacity style={styles.buttonLogin}>
@@ -81,8 +78,9 @@ const styles = StyleSheet.create({
     },
     logoText: {
         color: "white",
-        marginTop: 10,
-        fontSize: 20,
+        marginTop: 5,
+        marginBottom: 40,
+        fontSize: 30,
         alignItems: "center",
         fontWeight: "600"
     },
@@ -94,10 +92,10 @@ const styles = StyleSheet.create({
     inputCredentials: {
         width: WIDTH - 55,
         height: 45,
-        borderRadius: 25,
+        borderBottomWidth: 2,
+        borderColor: "rgba(0,0,0,0.35)",
         fontSize: 16,
         paddingLeft: 60,
-        backgroundColor: "rgba(0,0,0,0.35)",
         color: "rgba(255,255,255,255.7)",
         marginTop: 15
     },
@@ -123,18 +121,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#298158"
     },
     loginText: {
-        color: "rgba(255,255,255, 0.7)",
+        color: "white",
         fontSize: 18,
         textAlign: "center"
-    },
-    signUp: {
-        flexGrow: 1,
-        alignItems: "center",
-        justifyContent: "flex-end",
-        marginBottom: 16
-    },
-    signUpText: {
-        color: "white",
-        fontSize: 16,
     }
 });

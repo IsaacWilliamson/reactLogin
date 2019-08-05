@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     logoText: {
         color: "white",
         marginTop: 10,
-        fontSize: 20,
+        fontSize: 30,
         alignItems: "center",
         fontWeight: "600"
     },
@@ -111,13 +111,13 @@ const styles = StyleSheet.create({
     },
     inputIcon: {
         position: "absolute",
-        top: 22,
+        top: 23,
         left: 15
     },
     viewPassword: {
         position: "absolute",
         right: 15,
-        top: 22
+        top: 23
     },
     buttonLogin: {
         width: WIDTH - 55,
@@ -128,16 +128,17 @@ const styles = StyleSheet.create({
         backgroundColor: "#298158"
     },
     loginText: {
-        color: "rgba(255,255,255, 0.7)",
+        color: "rgba(255,255,255, 255)",
         fontSize: 18,
         textAlign: "center"
     },
     signUp: {
         alignItems: "center",
-        justifyContent: "flex-end",
+        position: 'absolute',
+        bottom: 15,
     },
     signUpText: {
         color: "white",
-        fontSize: 16,
+        fontSize: 26,
     }
 });
