@@ -3,6 +3,7 @@ import {Dimensions, Image, ImageBackground, StyleSheet, Text, TextInput, Touchab
 import bgImg from "./images/background.png";
 import logoImg from "./images/logo.png";
 import {MaterialCommunityIcons as Icon} from "@expo/vector-icons";
+import firebaseConfig from "./firebaseAPI";
 
 const {width: WIDTH} = Dimensions.get("window");
 
@@ -11,7 +12,9 @@ export default class login extends Component {
         super(props);
         this.state = {
             showPassword: true,
-            iconName: "eye-off"
+            iconName: "eye-off",
+            email: "",
+            password: ""
         };
     }
 
@@ -21,6 +24,19 @@ export default class login extends Component {
             showPassword: !this.state.showPassword,
             iconName: iconName
         });
+    };
+
+    checkLogin = () => {
+        const {email, password} = this.state;
+        this.setState({error: '', loading: true});
+        firebaseConfig.auth().signInWithEmailAndPassword(email.trim(), password)
+            .then(function (user) {
+                console.log(user)
+            })
+            .catch((err) => {
+                console.log(err.toString())
+            });
+
     };
 
     render() {
@@ -37,6 +53,7 @@ export default class login extends Component {
                     />
                     <TextInput style={styles.inputCredentials} placeholder={"Username"}
                                underlineColorAndroid="transparent"
+                               onChangeText={(text) => this.setState({email: text})}
                     />
                 </View>
 
@@ -48,6 +65,7 @@ export default class login extends Component {
                               style={styles.inputCredentials} placeholder={"Password"}
                               secureTextEntry={this.state.showPassword}
                               underlineColorAndroid="transparent"
+                              onChangeText={(text) => this.setState({password: text})}
                     />
 
                     <TouchableOpacity style={styles.viewPassword}
@@ -58,7 +76,9 @@ export default class login extends Component {
                     </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={styles.buttonLogin}>
+                <TouchableOpacity style={styles.buttonLogin}
+                                  onPress={this.checkLogin}>
+
                     <Text style={styles.loginText}>Login</Text>
                 </TouchableOpacity>
 
@@ -73,72 +93,73 @@ export default class login extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-    backgroundContainer: {
-        flex: 1,
-        width: null,
-        height: null,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    logoContainer: {
-        alignItems: "center"
-    },
-    logoText: {
-        color: "white",
-        marginTop: 10,
-        fontSize: 30,
-        alignItems: "center",
-        fontWeight: "600"
-    },
-    logoImage: {
-        width: 120,
-        alignItems: "center",
-        height: 120
-    },
-    inputCredentials: {
-        width: WIDTH - 55,
-        height: 45,
-        borderRadius: 25,
-        fontSize: 16,
-        paddingLeft: 60,
-        backgroundColor: "rgba(0,0,0,0.35)",
-        color: "rgba(255,255,255,255.7)",
-        marginTop: 15
-    },
-    inputContainer: {
-        marginTop: 10
-    },
-    inputIcon: {
-        position: "absolute",
-        top: 23,
-        left: 15
-    },
-    viewPassword: {
-        position: "absolute",
-        right: 15,
-        top: 23
-    },
-    buttonLogin: {
-        width: WIDTH - 55,
-        height: 45,
-        borderRadius: 25,
-        justifyContent: "center",
-        marginTop: 60,
-        backgroundColor: "#298158"
-    },
-    loginText: {
-        color: "rgba(255,255,255, 255)",
-        fontSize: 18,
-        textAlign: "center"
-    },
-    signUp: {
-        alignItems: "center",
-        position: 'absolute',
-        bottom: 15,
-    },
-    signUpText: {
-        color: "white",
-        fontSize: 26,
-    }
-});
+const
+    styles = StyleSheet.create({
+        backgroundContainer: {
+            flex: 1,
+            width: null,
+            height: null,
+            justifyContent: "center",
+            alignItems: "center"
+        },
+        logoContainer: {
+            alignItems: "center"
+        },
+        logoText: {
+            color: "white",
+            marginTop: 10,
+            fontSize: 30,
+            alignItems: "center",
+            fontWeight: "600"
+        },
+        logoImage: {
+            width: 120,
+            alignItems: "center",
+            height: 120
+        },
+        inputCredentials: {
+            width: WIDTH - 55,
+            height: 45,
+            borderRadius: 25,
+            fontSize: 16,
+            paddingLeft: 60,
+            backgroundColor: "rgba(0,0,0,0.35)",
+            color: "rgba(255,255,255,255.7)",
+            marginTop: 15
+        },
+        inputContainer: {
+            marginTop: 10
+        },
+        inputIcon: {
+            position: "absolute",
+            top: 23,
+            left: 15
+        },
+        viewPassword: {
+            position: "absolute",
+            right: 15,
+            top: 23
+        },
+        buttonLogin: {
+            width: WIDTH - 55,
+            height: 45,
+            borderRadius: 25,
+            justifyContent: "center",
+            marginTop: 60,
+            backgroundColor: "#298158"
+        },
+        loginText: {
+            color: "rgba(255,255,255, 255)",
+            fontSize: 18,
+            textAlign: "center"
+        },
+        signUp: {
+            alignItems: "center",
+            position: 'absolute',
+            bottom: 15,
+        },
+        signUpText: {
+            color: "white",
+            fontSize: 26,
+        }
+    });
