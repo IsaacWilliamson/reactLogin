@@ -52,20 +52,22 @@ export default class SignUp extends Component {
     checkPasswords = () => {
         const {password, confirmPassword} = this.state;
         if (password !== confirmPassword) {
-            this.setState({password: ""});
-            this.setState({confirmPassword: ""});
-            this.setState({confirmPassword: ""});
-            this.setState({match: true});
-            this.setState({warningPass: "Passwords do not match..."});
-            this.setState({placeholderPassword: "#DC7878"});
+            this.setState({
+                password: "",
+                confirmPassword: "",
+                match: true,
+                warningPass: "Passwords do not match...",
+                placeholderPassword: "#DC7878"
+            });
             return false
         } else if ((password || confirmPassword).length < 6) {
-            this.setState({password: ""});
-            this.setState({confirmPassword: ""});
-            this.setState({confirmPassword: ""});
-            this.setState({match: true});
-            this.setState({warningPass: "Must be greater than 6 characters..."});
-            this.setState({placeholderPassword: "#DC7878"});
+            this.setState({
+                password: "",
+                confirmPassword: "",
+                match: true,
+                warningPass: "Must be greater than 6 characters...",
+                placeholderPassword: "#DC7878"
+            });
             return false
         } else {
         }
@@ -73,7 +75,9 @@ export default class SignUp extends Component {
 
     validateSignUp = () => {
         this.timeout(500).then(() => {
-            this.setState({shake: false})
+            this.setState({
+                shake: false
+            })
         });
         let result1 = this.validateEmail();
         let result2 = this.checkPasswords();
