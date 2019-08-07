@@ -14,21 +14,21 @@ export default class SignUp extends Component {
         this.state = {
             showPassword: true,
             iconName: "eye-off",
-
             email: "",
             notChecked: false,
             warningEmail: "Email",
-
             password: "",
             confirmPassword: "",
             match: false,
             warningPass: "Confirm Password",
-
             placeholderEmail: "rgba(4,3,30,0.22)",
             placeholderPassword: "rgba(4,3,30,0.22)",
-
             shake: false
         };
+        this.validateEmail = this.validateEmail.bind(this);
+        this.validateSignUp = this.validateSignUp.bind(this);
+        this.signUpFirebase = this.validateSignUp.bind(this);
+        this.checkPasswords = this.checkPasswords.bind(this)
 
     }
 
@@ -98,12 +98,12 @@ export default class SignUp extends Component {
     signUpFirebase = () => {
         const {email, confirmPassword} = this.state;
         this.setState({error: '', loading: true});
-        firebaseConfig.auth().createUserWithEmailAndPassword(email.trim(), confirmPassword)
+        firebaseConfig.auth().createUserWithEmailAndPassword(this.state.email.trim(), this.state.confirmPassword)
             .then(function (user) {
                 console.log(user)
             })
             .catch((err) => {
-                console.log(err.toString())
+                console.log(err)
             });
 
     };
@@ -157,9 +157,17 @@ export default class SignUp extends Component {
                 <TouchableOpacity style={styles.buttonLogin}
                                   onPress={this.validateSignUp.bind(this)}
                 >
-                    <Animatable.Text animation={this.state.shake ? 'shake' : undefined} style={styles.loginText}>Sign
+                    <Animatable.Text animation={this.state.shake ? 'shake' : undefined} style={styles.signUpText}>Sign
                         Up</Animatable.Text>
                 </TouchableOpacity>
+
+                <View style={styles.loginView}>
+                    <Text Style={styles.loginText}
+                          onPress={() => this.props.navigation.navigate('Login')}
+                          title="SignUp">
+                        Already have an account? Login!
+                    </Text>
+                </View>
             </ImageBackground>
         );
     }
@@ -201,7 +209,6 @@ const
             marginTop: 15
 
         },
-
         inputCredentials: {
             width: WIDTH - 55,
             height: 45,
@@ -233,9 +240,18 @@ const
             marginTop: 60,
             backgroundColor: "#298158"
         },
-        loginText: {
+        signUpText: {
             color: "white",
             fontSize: 18,
             textAlign: "center"
+        },
+        loginView: {
+            alignItems: "center",
+            position: 'absolute',
+            bottom: 15,
+        },
+        loginText: {
+            color: "rgba(255,255,255, 255)",
+            fontSize: 106,
         }
     });

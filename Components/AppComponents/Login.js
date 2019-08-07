@@ -4,6 +4,7 @@ import bgImg from "./images/background.png";
 import logoImg from "./images/logo.png";
 import {MaterialCommunityIcons as Icon} from "@expo/vector-icons";
 import firebaseConfig from "./firebaseAPI";
+import * as Animatable from 'react-native-animatable';
 
 const {width: WIDTH} = Dimensions.get("window");
 
@@ -14,7 +15,9 @@ export default class login extends Component {
             showPassword: true,
             iconName: "eye-off",
             email: "",
-            password: ""
+            password: "",
+            error: false,
+            errorMessage: ""
         };
     }
 
@@ -26,18 +29,21 @@ export default class login extends Component {
         });
     };
 
-    checkLogin = () => {
+
+    performLogin = () => {
         const {email, password} = this.state;
         this.setState({error: '', loading: true});
         firebaseConfig.auth().signInWithEmailAndPassword(email.trim(), password)
-            .then(function (user) {
-                console.log(user)
-            })
-            .catch((err) => {
-                console.log(err.toString())
-            });
+            .then(() => this.props.navigation.navigate('Loading'))
+            .catch((error) =>
+                this.setState({
+                    error: true,
+                    errorMessage: "Email or password are invalid..."
+                }));
+        console.log(this.state.errorMessage)
 
     };
+
 
     render() {
         return (
@@ -76,14 +82,17 @@ export default class login extends Component {
                     </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={styles.buttonLogin}
-                                  onPress={this.checkLogin}>
 
-                    <Text style={styles.loginText}>Login</Text>
+                <TouchableOpacity style={styles.buttonLogin}
+                                  onPress={this.performLogin}>
+
+                    <Animatable.Text animation={this.state.error ? 'shake' : undefined}
+                                     style={styles.loginText}>Login</Animatable.Text>
                 </TouchableOpacity>
 
                 <View style={styles.signUp}>
-                    <Text Style={styles.signUpText} onPress={() => this.props.navigation.navigate('SignUp')}
+                    <Text Style={styles.signUpText}
+                          onPress={() => this.props.navigation.navigate('SignUp')}
                           title="SignUp">
                         Don't have an account? Sign Up!
                     </Text>
@@ -159,7 +168,7 @@ const
             bottom: 15,
         },
         signUpText: {
-            color: "white",
-            fontSize: 26,
+            color: "rgba(255,255,255, 255)",
+            fontSize: 106,
         }
     });
