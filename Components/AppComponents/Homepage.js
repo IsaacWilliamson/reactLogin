@@ -1,17 +1,15 @@
 import React from 'react';
-import {ImageBackground, StyleSheet, View} from 'react-native';
-import {Header, Icon, Left} from 'native-base'
+import {StyleSheet, View} from 'react-native';
+import {Body, Header, Icon, Left, Right, Title} from 'native-base'
 import firebaseConfig from "./firebaseAPI";
-import {Text} from "react-native-animatable";
-import bgImg from "./images/background.png";
 
 export default class Homepage extends React.Component {
+
     static navigationOptions = {
-        drawerIcon: () => (
-            <Icon name="home"/>
+        drawerIcon: ({tintColor}) => (
+            <Icon name="home" styles={{fontSize: 15, color: tintColor}}/>
         )
     };
-    state = {currentUser: null};
     state = {currentUser: null};
 
     componentDidMount() {
@@ -19,26 +17,26 @@ export default class Homepage extends React.Component {
         this.setState({currentUser})
     }
 
-    signOut = () => {
-        firebaseConfig.auth().signOut().then(() => this.props.navigation.navigate('Login'))
-    };
 
     render() {
 
         return (
-            <ImageBackground source={bgImg} style={styles.backgroundContainer}>
                 <View style={styles.container}>
-                    <Header>
+                    <Header style={styles.header}>
                         <Left>
-                            <Icon name={"menu"}
+                            <Icon name={"ios-arrow-back"} style={styles.menuIcon}/>
+                        </Left>
+                        <Body>
+                            <Title style={styles.titleText}>Home</Title>
+                        </Body>
+                        <Right>
+                            <Icon name={"menu"} style={styles.menuIcon}
                                   onPress={() => this.props.navigation.openDrawer()}
                             />
-                        </Left>
-                    </Header>
+                        </Right>
 
-                    <Text>Poop</Text>
+                    </Header>
                 </View>
-            </ImageBackground>
 
 
         )
@@ -50,9 +48,25 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     backgroundContainer: {
-
         width: null,
         height: null,
-        flex: 1
+        flex: 1,
+        backgroundColor: "#EEF5DB"
     },
+    header: {
+        backgroundColor: "#60A7BF",
+        alignItems: "center",
+        textAlignVertical: "center",
+        color: "rgba(255,255,255,255.7)",
+
+    },
+    menuIcon: {
+        alignItems: "center",
+        margin: 5,
+        color: "rgba(255,255,255,255.7)",
+    },
+    titleText: {
+        textAlign: "center",
+        color: "rgba(255,255,255,255.7)",
+    }
 });

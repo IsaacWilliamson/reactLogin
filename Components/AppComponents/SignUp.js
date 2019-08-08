@@ -25,10 +25,6 @@ export default class SignUp extends Component {
             placeholderPassword: "rgba(4,3,30,0.22)",
             shake: false
         };
-        this.validateEmail = this.validateEmail.bind(this);
-        this.validateSignUp = this.validateSignUp.bind(this);
-        this.signUpFirebase = this.validateSignUp.bind(this);
-        this.checkPasswords = this.checkPasswords.bind(this)
 
     }
 
@@ -79,14 +75,12 @@ export default class SignUp extends Component {
                 shake: false
             })
         });
-        let result1 = this.validateEmail();
-        let result2 = this.checkPasswords();
-        console.log(result1);
-        console.log(result2);
-        if (!(result1 || result2)) {
+        this.validateEmail();
+        this.checkPasswords();
+        if ((this.state.match || this.state.notChecked)) {
             this.setState({shake: true})
-        } else if ((result1 && result2) == true) {
-            console.log("sign up");
+        }
+        if ((this.state.match === false && this.state.notChecked === false)) {
             this.signUpFirebase()
         }
     };
@@ -97,14 +91,18 @@ export default class SignUp extends Component {
 
     signUpFirebase = () => {
         const {email, confirmPassword} = this.state;
+        console.log("we made it boys");
+        console.log(email);
+        console.log(confirmPassword);
         this.setState({error: '', loading: true});
-        firebaseConfig.auth().createUserWithEmailAndPassword(this.state.email.trim(), this.state.confirmPassword)
-            .then(function (user) {
-                console.log(user)
-            })
-            .catch((err) => {
-                console.log(err)
-            });
+        firebaseConfig.auth().createUserWithEmailAndPassword(email.trim(), confirmPassword)
+            .then(() => this.props.navigation.navigate('Loading'))
+            .catch((error) =>
+                this.setState({
+                    error: true,
+                    errorMessage: "Email or password are invalid..."
+                }));
+        console.log(this.state.errorMessage)
 
     };
 
@@ -155,7 +153,7 @@ export default class SignUp extends Component {
                     />
                 </View>
                 <TouchableOpacity style={styles.buttonLogin}
-                                  onPress={this.validateSignUp.bind(this)}
+                                  onPress={this.validateSignUp}
                 >
                     <Animatable.Text animation={this.state.shake ? 'shake' : undefined} style={styles.signUpText}>Sign
                         Up</Animatable.Text>
