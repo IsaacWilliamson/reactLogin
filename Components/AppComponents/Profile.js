@@ -2,7 +2,6 @@ import React from 'react';
 import {Button, Dimensions, Image, Linking, StyleSheet, Text, TextInput, View} from 'react-native';
 import firebaseConfig from "./firebaseAPI";
 import {Body, Header, Icon, Left, Right, Title} from "native-base";
-import user from "./images/user.png";
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from "expo-permissions";
 
@@ -11,16 +10,21 @@ const {width: WIDTH} = Dimensions.get("window");
 
 
 export default class Profile extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            photoURI: null,
+            currentUser: null,
+            loadImage: ''
+        }
+    };
+
     static navigationOptions = {
         drawerIcon: ({tintColor}) => (
             <Icon name="person" styles={{fontSize: 15, active: tintColor}}/>
         )
     };
 
-    state = {
-        photoURI: null,
-        currentUser: null
-    };
 
     componentDidMount() {
         const {currentUser} = firebaseConfig.auth();
@@ -65,10 +69,7 @@ export default class Profile extends React.Component {
 
     uploadFirebase = async (uri, imageName) => {
         const response = await fetch(uri);
-        console.log(response);
         const blob = await response.blob();
-        console.log(blob);
-
         var storageRef = firebaseConfig.storage().ref();
         var userID = storageRef.child('images/' + this.state.currentUser.uid);
         return userID.put(blob)
@@ -96,7 +97,7 @@ export default class Profile extends React.Component {
 
                 <View style={styles.container}>
                     <View style={styles.border}></View>
-                    <Image style={styles.avatar} source={{uri: "images/" + user.uid}}/>
+                    <Image style={styles.avatar} source={{uri: 'images/' + currentUser && currentUser.uid}}/>
                     <Button title="Choose Photo" onPress={this.selectImage}/>
                     <View style={styles.bodyContent}>
                         <Text style={styles.name}>John Doe</Text>
@@ -114,6 +115,8 @@ export default class Profile extends React.Component {
         )
     }
 }
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
