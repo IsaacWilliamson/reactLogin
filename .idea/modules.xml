@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Friendly.iml" filepath="$PROJECT_DIR$/.idea/Friendly.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/reactLogin.iml" filepath="$PROJECT_DIR$/.idea/reactLogin.iml" />
     </modules>
   </component>
 </project>

@@ -1,18 +1,78 @@
 import React from 'react';
-import {Dimensions, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Button, Dimensions, Image, Linking, StyleSheet, Text, TextInput, View} from 'react-native';
 import firebaseConfig from "./firebaseAPI";
 import {Body, Header, Icon, Left, Right, Title} from "native-base";
+import user from "./images/user.png";
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from "expo-permissions";
+
 
 const {width: WIDTH} = Dimensions.get("window");
 
 
 export default class Profile extends React.Component {
-    state = {currentUser: null};
+    static navigationOptions = {
+        drawerIcon: ({tintColor}) => (
+            <Icon name="person" styles={{fontSize: 15, active: tintColor}}/>
+        )
+    };
+
+    state = {
+        photoURI: null,
+        currentUser: null
+    };
 
     componentDidMount() {
         const {currentUser} = firebaseConfig.auth();
         this.setState({currentUser})
     }
+
+    async checkCameraRollPermission() {
+        const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status !== 'granted') {
+            [
+                {text: 'Settings', onPress: () => Linking.openURL('app-settings:')},
+                {
+                    text: 'Cancel',
+                }
+            ],
+                this.setState({
+                    hasCameraRollPermissions: false
+                });
+            return false
+        } else {
+            this.setState({
+                hasCameraRollPermissions: true
+            });
+            return true
+        }
+
+    }
+
+    selectImage = async () => {
+        const checkPermissions = await this.checkCameraRollPermission();
+        if (!checkPermissions) return;
+        let result = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            aspect: [4, 3],
+        });
+
+        if (!result.cancelled) {
+            this.setState({photoURI: result.uri});
+            this.uploadFirebase(result.uri);
+        }
+    };
+
+    uploadFirebase = async (uri, imageName) => {
+        const response = await fetch(uri);
+        console.log(response);
+        const blob = await response.blob();
+        console.log(blob);
+
+        var storageRef = firebaseConfig.storage().ref();
+        var userID = storageRef.child('images/' + this.state.currentUser.uid);
+        return userID.put(blob)
+    };
 
 
     render() {
@@ -34,11 +94,22 @@ export default class Profile extends React.Component {
 
                 </Header>
 
+                <View style={styles.container}>
+                    <View style={styles.border}></View>
+                    <Image style={styles.avatar} source={{uri: "images/" + user.uid}}/>
+                    <Button title="Choose Photo" onPress={this.selectImage}/>
+                    <View style={styles.bodyContent}>
+                        <Text style={styles.name}>John Doe</Text>
+                        <Text style={{fontSize: 20}}>Email:</Text>
+                        <TextInput style={{color: '#298158', fontSize: 20}}>
+                            {currentUser && currentUser.email}!</TextInput>
+                        <Text style={styles.info}>Username</Text>
+                        <TextInput style={{color: '#298158', fontSize: 20}}>
+                            {currentUser && currentUser.uid}!</TextInput>
 
-                <Text style={{fontSize: 20}}>Email:</Text>
-                <TextInput style={{color: '#298158', fontSize: 20}}>
-                    {currentUser && currentUser.email}!
-                </TextInput>
+                    </View>
+                </View>
+
             </View>
         )
     }
@@ -68,5 +139,38 @@ const styles = StyleSheet.create({
     titleText: {
         textAlign: "center",
         color: "rgba(255,255,255,255.7)",
+    },
+    avatar: {
+        width: 130,
+        height: 130,
+        borderRadius: 63,
+        borderWidth: 2,
+        borderColor: "#4f6367",
+        marginBottom: 10,
+        alignSelf: 'center',
+        position: 'absolute',
+        marginTop: 60
+    },
+    name: {
+        fontSize: 22,
+        color: "#FFFFFF",
+        fontWeight: '600',
+    },
+    bodyContent: {
+        marginTop: 200,
+        flex: 1,
+        alignItems: 'center',
+        padding: 30,
+    },
+    info: {
+        fontSize: 16,
+        color: "#00BFFF",
+        marginTop: 10
+    },
+    description: {
+        fontSize: 16,
+        color: "#696969",
+        marginTop: 10,
+        textAlign: 'center'
     }
 });

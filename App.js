@@ -16,7 +16,6 @@ export default class App extends React.Component {
         this.state = {
             authenticated: false,
         };
-        this.logout = this.logout.bind(this)
     };
 
 
@@ -28,7 +27,9 @@ export default class App extends React.Component {
                 authenticated: false,
             }));
         });
+        console.log(this.state.authenticated)
     }
+
 
     logout = () => {
         console.log("here");
@@ -38,7 +39,6 @@ export default class App extends React.Component {
                 console.log(err)
             });
     };
-
 
     render() {
         //const {currentUser} = this.state
@@ -57,7 +57,7 @@ const DrawerComponents = (props) =>
         <ScrollView>
             <DrawerItems{...props}/>
             <View style={{flex: 1}}>
-                <Button title="Logout" onPress={this.logout}/>
+                <Button title="Logout" onPress={() => this.logout}/>
             </View>
         </ScrollView>
     </SafeAreaView>;
@@ -100,7 +100,7 @@ const TabNavigator = createDrawerNavigator({
         contentComponent: DrawerComponents,
         drawerWidth: WIDTH,
         drawerPosition: "right",
-        initialRouteName: 'Home',
+        initialRouteName: 'Login',
         contentOptions: {
             activeTintColor: "orange"
         }

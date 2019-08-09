@@ -7,7 +7,7 @@ const firebaseConfig = firebase.initializeApp({
     authDomain: "time-map-99869.firebaseapp.com",
     databaseURL: "https://time-map-99869.firebaseio.com",
     projectId: "time-map-99869",
-    storageBucket: "",
+    storageBucket: "time-map-99869.appspot.com",
     messagingSenderId: "814152598134",
     appId: "1:814152598134:web:445568936671fbb6"
 
