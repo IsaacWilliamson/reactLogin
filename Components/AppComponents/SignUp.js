@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import * as Animatable from 'react-native-animatable';
 import {Dimensions, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import bgImg from "./images/background.png";
+import bgImg from "./images/background2.png";
 import {MaterialCommunityIcons as Icon} from "@expo/vector-icons";
 import email from 'react-native-email'
 import firebaseConfig from "./firebaseAPI";
@@ -36,7 +36,7 @@ export default class SignUp extends Component {
             this.setState({email: ""});
             this.setState({notChecked: true});
             this.setState({warningEmail: "Not a Kent Domain..."});
-            this.setState({placeholderEmail: "#DC7878"});
+            this.setState({placeholderEmail: "#e76c6c"});
             return false;
         } else {
             this.setState({notChecked: false});
@@ -53,7 +53,7 @@ export default class SignUp extends Component {
                 confirmPassword: "",
                 match: true,
                 warningPass: "Passwords do not match...",
-                placeholderPassword: "#DC7878"
+                placeholderPassword: "#e76c6c"
             });
             return false
         } else if ((password || confirmPassword).length < 6) {
@@ -62,7 +62,7 @@ export default class SignUp extends Component {
                 confirmPassword: "",
                 match: true,
                 warningPass: "Must be greater than 6 characters...",
-                placeholderPassword: "#DC7878"
+                placeholderPassword: "#e76c6c"
             });
             return false
         } else {
@@ -91,9 +91,6 @@ export default class SignUp extends Component {
 
     signUpFirebase = () => {
         const {email, confirmPassword} = this.state;
-        console.log("we made it boys");
-        console.log(email);
-        console.log(confirmPassword);
         this.setState({error: '', loading: true});
         firebaseConfig.auth().createUserWithEmailAndPassword(email.trim(), confirmPassword)
             .then(() => this.props.navigation.navigate('Loading'))
@@ -118,7 +115,7 @@ export default class SignUp extends Component {
                     <Icon name={"email"} size={28} color={"white"} style={styles.inputIcon}
                     />
                     <TextInput
-                        style={[(!this.state.notChecked) ? styles.inputCredentials : styles.invalidCredentials]}
+                        TextInput style={styles.inputCredentials}
                         placeholder={this.state.warningEmail}
                         placeholderTextColor={this.state.placeholderEmail}
                         underlineColorAndroid="transparent"
@@ -128,10 +125,10 @@ export default class SignUp extends Component {
                 </View>
 
                 <View style={styles.inputContainer}>
-                    <Icon name={"lock-outline"} size={28} color={"white"}
+                    <Icon name={"lock-open-outline"} size={28} color={"white"}
                           style={styles.inputIcon}
                     />
-                    <TextInput style={[(!this.state.match) ? styles.inputCredentials : styles.invalidCredentials]}
+                    <TextInput style={styles.inputCredentials}
                                placeholder={this.state.warningPass}
                                placeholderTextColor={this.state.placeholderPassword}
                                underlineColorAndroid="transparent"
@@ -144,7 +141,7 @@ export default class SignUp extends Component {
                     <Icon name={"lock-outline"} size={28} color={"white"}
                           style={styles.inputIcon}
                     />
-                    <TextInput style={[(!this.state.match) ? styles.inputCredentials : styles.invalidCredentials]}
+                    <TextInput style={styles.inputCredentials}
                                placeholder={this.state.warningPass}
                                placeholderTextColor={this.state.placeholderPassword}
                                underlineColorAndroid="transparent"
@@ -159,11 +156,12 @@ export default class SignUp extends Component {
                         Up</Animatable.Text>
                 </TouchableOpacity>
 
-                <View style={styles.loginView}>
-                    <Text Style={styles.loginText}
-                          onPress={() => this.props.navigation.navigate('Login')}
-                          title="SignUp">
-                        Already have an account? Login!
+                <View style={styles.signUpView}>
+                    <Text style={styles.loginText} onPress={() => this.props.navigation.navigate('Login')}>
+                        Already have an account?
+                        <Text style={{fontWeight: 'bold', color: "#f8e9a1"}}>
+                            {""} Login!
+                        </Text>
                     </Text>
                 </View>
             </ImageBackground>
@@ -185,8 +183,8 @@ const
         },
         logoText: {
             color: "white",
-            marginTop: 5,
-            marginBottom: 40,
+            marginTop: 60,
+            marginBottom: 50,
             fontSize: 30,
             alignItems: "center",
             fontWeight: "600"
@@ -196,22 +194,11 @@ const
             alignItems: "center",
             height: 120
         },
-        invalidCredentials: {
-            width: WIDTH - 55,
-            height: 45,
-            borderBottomWidth: 2,
-            borderColor: "#DC7878",
-            fontSize: 16,
-            paddingLeft: 60,
-            color: "rgba(255,255,255,255.7)",
-            marginTop: 15
-
-        },
         inputCredentials: {
             width: WIDTH - 55,
             height: 45,
             borderBottomWidth: 2,
-            borderColor: "rgba(0,0,0,0.35)",
+            borderColor: "rgba(36,48,94,0.35)",
             fontSize: 16,
             paddingLeft: 60,
             color: "rgba(255,255,255,255.7)",
@@ -223,7 +210,8 @@ const
         inputIcon: {
             position: "absolute",
             top: 22,
-            left: 15
+            left: 15,
+            color: "#afb7ce"
         },
         viewPassword: {
             position: "absolute",
@@ -236,20 +224,20 @@ const
             borderRadius: 25,
             justifyContent: "center",
             marginTop: 60,
-            backgroundColor: "#298158"
+            backgroundColor: "#A8D0E6"
         },
         signUpText: {
             color: "white",
-            fontSize: 18,
+            fontSize: 22,
             textAlign: "center"
         },
-        loginView: {
+        signUpView: {
             alignItems: "center",
             position: 'absolute',
             bottom: 15,
         },
         loginText: {
             color: "rgba(255,255,255, 255)",
-            fontSize: 106,
+            fontSize: 15,
         }
     });

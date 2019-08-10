@@ -46,15 +46,10 @@ export default class Homepage extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    backgroundContainer: {
-        width: null,
-        height: null,
-        flex: 1,
-        backgroundColor: "#EEF5DB"
+        backgroundColor: "rgba(255,255,255,255.7)",
     },
     header: {
-        backgroundColor: "#60A7BF",
+        backgroundColor: "#243060",
         alignItems: "center",
         textAlignVertical: "center",
         color: "rgba(255,255,255,255.7)",

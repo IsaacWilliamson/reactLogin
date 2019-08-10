@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Dimensions, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Dimensions, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import bgImg from "./images/background.png";
 import logoImg from "./images/logo.png";
 import {MaterialCommunityIcons as Icon} from "@expo/vector-icons";
@@ -91,10 +91,11 @@ export default class login extends Component {
                 </TouchableOpacity>
 
                 <View style={styles.signUp}>
-                    <Text Style={styles.signUpText}
-                          onPress={() => this.props.navigation.navigate('SignUp')}
-                          title="SignUp">
-                        Don't have an account? Sign Up!
+                    <Text style={styles.signUpText} onPress={() => this.props.navigation.navigate('SignUp')}>
+                        Don't have an account?
+                        <Text style={{fontWeight: 'bold', color: "#f8e9a1"}}>
+                            {""} Sign Up!
+                        </Text>
                     </Text>
                 </View>
             </ImageBackground>
@@ -122,9 +123,9 @@ const
             fontWeight: "600"
         },
         logoImage: {
-            width: 120,
+            width: 170,
             alignItems: "center",
-            height: 120
+            height: 170
         },
         inputCredentials: {
             width: WIDTH - 55,
@@ -132,7 +133,7 @@ const
             borderRadius: 25,
             fontSize: 16,
             paddingLeft: 60,
-            backgroundColor: "rgba(0,0,0,0.35)",
+            backgroundColor: "rgba(36,48,94,0.35)",
             color: "rgba(255,255,255,255.7)",
             marginTop: 15
         },
@@ -155,20 +156,21 @@ const
             borderRadius: 25,
             justifyContent: "center",
             marginTop: 60,
-            backgroundColor: "#298158"
+            backgroundColor: "#A8D0E6"
         },
         loginText: {
             color: "rgba(255,255,255, 255)",
-            fontSize: 18,
+            fontSize: 22,
             textAlign: "center"
         },
         signUp: {
             alignItems: "center",
             position: 'absolute',
             bottom: 15,
+
         },
         signUpText: {
             color: "rgba(255,255,255, 255)",
-            fontSize: 106,
+            fontSize: 15,
         }
     });

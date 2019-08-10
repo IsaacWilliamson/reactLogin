@@ -102,7 +102,7 @@ const TabNavigator = createDrawerNavigator({
         drawerPosition: "right",
         initialRouteName: 'Login',
         contentOptions: {
-            activeTintColor: "orange"
+            activeTintColor: "#f8e9a1"
         }
 
     });
