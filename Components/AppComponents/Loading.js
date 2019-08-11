@@ -1,13 +1,13 @@
 import React, {Component} from "react";
 import {ActivityIndicator, ImageBackground, StyleSheet, View} from 'react-native';
-import firebaseConfig from "./firebaseAPI";
+import firebaseConfig from "../../services/firebaseAPI";
 import bgImg from "./images/background.png";
 
 export default class Loading extends Component {
 
     componentDidMount() {
         firebaseConfig.auth().onAuthStateChanged(user => {
-            this.props.navigation.navigate(user ? 'Home' : 'SignUp');
+            this.props.navigation.navigate(user ? 'Home' : 'Login');
             console.log(user),
                 console.log("DID WE MAKE IT ")
         })

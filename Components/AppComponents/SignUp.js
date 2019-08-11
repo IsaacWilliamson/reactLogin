@@ -4,7 +4,7 @@ import {Dimensions, ImageBackground, StyleSheet, Text, TextInput, TouchableOpaci
 import bgImg from "./images/background2.png";
 import {MaterialCommunityIcons as Icon} from "@expo/vector-icons";
 import email from 'react-native-email'
-import firebaseConfig from "./firebaseAPI";
+import {fireSignUp} from "../../services/authServices";
 
 const {width: WIDTH} = Dimensions.get("window");
 
@@ -92,14 +92,12 @@ export default class SignUp extends Component {
     signUpFirebase = () => {
         const {email, confirmPassword} = this.state;
         this.setState({error: '', loading: true});
-        firebaseConfig.auth().createUserWithEmailAndPassword(email.trim(), confirmPassword)
-            .then(() => this.props.navigation.navigate('Loading'))
+        fireSignUp(email.trim(), confirmPassword).then(() => this.props.navigation.navigate('Loading'))
             .catch((error) =>
                 this.setState({
                     error: true,
                     errorMessage: "Email or password are invalid..."
                 }));
-        console.log(this.state.errorMessage)
 
     };
 
@@ -150,8 +148,7 @@ export default class SignUp extends Component {
                     />
                 </View>
                 <TouchableOpacity style={styles.buttonLogin}
-                                  onPress={this.validateSignUp}
-                >
+                                  onPress={this.validateSignUp}>
                     <Animatable.Text animation={this.state.shake ? 'shake' : undefined} style={styles.signUpText}>Sign
                         Up</Animatable.Text>
                 </TouchableOpacity>

@@ -1,15 +1,10 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Body, Header, Icon, Left, Right, Title} from 'native-base'
-import firebaseConfig from "./firebaseAPI";
+import firebaseConfig from "../../services/firebaseAPI";
 
 export default class Homepage extends React.Component {
-
-    static navigationOptions = {
-        drawerIcon: ({tintColor}) => (
-            <Icon name="home" styles={{fontSize: 15, color: tintColor}}/>
-        )
-    };
+    s;
     state = {currentUser: null};
 
     componentDidMount() {

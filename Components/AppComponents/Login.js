@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {Dimensions, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import bgImg from "./images/background.png";
 import logoImg from "./images/logo.png";
+import {fireLogin} from "../../services/authServices";
 import {MaterialCommunityIcons as Icon} from "@expo/vector-icons";
-import firebaseConfig from "./firebaseAPI";
 import * as Animatable from 'react-native-animatable';
 
 const {width: WIDTH} = Dimensions.get("window");
@@ -29,19 +29,15 @@ export default class login extends Component {
         });
     };
 
-
     performLogin = () => {
         const {email, password} = this.state;
         this.setState({error: '', loading: true});
-        firebaseConfig.auth().signInWithEmailAndPassword(email.trim(), password)
-            .then(() => this.props.navigation.navigate('Loading'))
+        fireLogin(email.trim(), password).then(() => this.props.navigation.navigate('Loading'))
             .catch((error) =>
                 this.setState({
                     error: true,
                     errorMessage: "Email or password are invalid..."
                 }));
-        console.log(this.state.errorMessage)
-
     };
 
 
@@ -167,7 +163,6 @@ const
             alignItems: "center",
             position: 'absolute',
             bottom: 15,
-
         },
         signUpText: {
             color: "rgba(255,255,255, 255)",

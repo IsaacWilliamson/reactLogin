@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Dimensions, Image, Linking, StyleSheet, Text, TextInput, View} from 'react-native';
-import firebaseConfig from "./firebaseAPI";
+import firebaseConfig from "../../services/firebaseAPI";
 import {Body, Header, Icon, Left, Right, Title} from "native-base";
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from "expo-permissions";
@@ -26,7 +26,7 @@ export default class Profile extends React.Component {
     };
 
 
-    componentDidMount() {
+    componentWillMount() {
         const {currentUser} = firebaseConfig.auth();
         this.setState({currentUser})
     }
@@ -76,6 +76,7 @@ export default class Profile extends React.Component {
     };
 
 
+
     render() {
         const {currentUser} = this.state;
         return (
@@ -97,7 +98,7 @@ export default class Profile extends React.Component {
 
                 <View style={styles.container}>
                     <View style={styles.border}></View>
-                    <Image style={styles.avatar} source={{uri: 'images/' + currentUser && currentUser.uid}}/>
+                    <Image style={styles.avatar} source={{uri: undefined}}/>
                     <Button title="Choose Photo" onPress={this.selectImage}/>
                     <View style={styles.bodyContent}>
                         <Text style={styles.name}>John Doe</Text>
